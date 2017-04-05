@@ -10,9 +10,9 @@ public class Complexity {
 	}
 
 	public static void main(String[] args) {
-		for (int i = 1000000; i < 2000000000; i *= 10) {
+		for (int i = 1000000; i < 2000000000; i *= 2) {
 			long totalTime = 0;
-			int trials = 10;
+			int trials = 100;
 			for (int j = 0; j < trials; j++) {
 				int[] a = new int[i];
 				long start = System.currentTimeMillis();
