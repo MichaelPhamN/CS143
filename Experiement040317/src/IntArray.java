@@ -10,7 +10,7 @@ public class IntArray {
 	
 	public int get(int position){
 		if(position < 0 || position >= length){
-			throw new NullPointerException("Oops!!");
+			throw new ArrayIndexOutOfBoundsException(position);
 		}
 			
 		return a[position];
