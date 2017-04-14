@@ -40,8 +40,16 @@ public class SimpleRecursion {
 		return square(n-1) + n + n - 1;
 	}
 	
+	public static int fib(int n){
+		if(n == 0 || n == 1){
+			return 1;
+		}
+		
+		return fib(n-1) + fib(n - 2); 
+	}
+	
 	public static void main(String[] args) {
-		int[] a = {1, 2, 3};
+		/*int[] a = {1, 2, 3};
 		int[] b = {};
 		System.out.println(find(a, 1)); // return 0
 		System.out.println(find(a, 4)); // return -1
@@ -53,8 +61,26 @@ public class SimpleRecursion {
 		System.out.println("4^2 = "+square(4));
 		System.out.println("100000^2 = "+100000L*100000L);
 		System.out.println("100000^2 = "+square(100000));
+		
+		
+		for (int i = 0; i < 20; i++) {
+			System.out.println(i + "  " + fib(i));
 		*/
-
+		
+		int[] a = new int[1000000];
+		for(int i = 1; i< a.length;i++){
+			a[i] = a[i - 1] + (int)(Math.random()*3);
+		}
+		long start = System.currentTimeMillis();
+		for(int x = 0; x < 1000000; x++){
+			for(int j = 0; j < a.length; j++){
+				if(a[j] == x) break; // we found it 
+				else if(a[j] > x) break; // we will never find it
+			}		
+		}
+		
+		long end = System.currentTimeMillis();
+		System.out.println(end - start);
 	}
 
 }
