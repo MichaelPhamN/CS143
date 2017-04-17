@@ -33,6 +33,27 @@ public class SimpleRecursion {
 		return find(a, x, 0);
 	}
 	
+	public static int binarySearch(int[] a, int x, int low, int high){
+		if(low > high){
+			return -1;
+		}
+		
+		int index = (low + high)/2;
+		int y = a[index];
+		
+		if(x == y){
+			return index;
+		}else if(x < y){
+			return binarySearch(a, x, low, index - 1);
+		}else{
+			return binarySearch(a, x, index + 1, high);
+		}
+	}
+	
+	public static int binarySearch(int[] a, int x){
+		return binarySearch(a, x, 0, a.length - 1);
+	}
+	
 	public static long square(long n) {
 		if (n == 1) {
 			return 1; // 1 squared is 1!
@@ -68,19 +89,30 @@ public class SimpleRecursion {
 		*/
 		
 		int[] a = new int[1000000];
+		int indexSum = 0;
 		for(int i = 1; i< a.length;i++){
 			a[i] = a[i - 1] + (int)(Math.random()*3);
 		}
 		long start = System.currentTimeMillis();
-		for(int x = 0; x < 1000000; x++){
+		for(int x = 0; x < 100000; x++){
 			for(int j = 0; j < a.length; j++){
-				if(a[j] == x) break; // we found it 
-				else if(a[j] > x) break; // we will never find it
+				if(a[j] == x) { indexSum +=j; break;} // we found it 
+				else if(a[j] > x) {indexSum -=1; break;} // we will never find it
 			}		
 		}
 		
 		long end = System.currentTimeMillis();
 		System.out.println(end - start);
+		int indexSum2 = 0;
+		start = System.currentTimeMillis();
+		for(int x = 0; x < 100000; x++){
+			indexSum2 += binarySearch(a,x);
+		}
+		
+		end = System.currentTimeMillis();
+		System.out.println(end - start);
+		
+		System.out.println(indexSum + " " + indexSum2);
 	}
 
 }
