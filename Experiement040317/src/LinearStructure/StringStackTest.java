@@ -1,16 +1,16 @@
 package LinearStructure;
-
 public class StringStackTest {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		StringStack stack; // Empty Stack
-//		System.out.println("Size of stack:" + stack.size());
+		StringStack stack = new StringStack(); // Empty stack
+		//System.out.println("Stack size: "+stack.size());
 		stack.push("a");
 		stack.push("b");
 		stack.push("c");
-		System.out.println("Top of stack:" + stack.top());
-//		System.out.println("Size of stack:" + stack.size());
+		System.out.println("Top of stack: "+stack.top());
+		//System.out.println("Stack size: "+stack.size());
+		
+
 	}
 
 }
