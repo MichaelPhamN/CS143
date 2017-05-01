@@ -2,52 +2,114 @@ package LinearStructure;
 
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
-		checkJump(pegs, -1,-1,0,0,0,0,solution);		
+		int startX = 0, startY = -1, jumpX = 0, jumpY = 1, endX = 0, endY = 0;
+		abc(pegs, startX, startY, jumpX, jumpY, endX, endY, solution);
 	}
 	
-	public static boolean checkJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
-		if (tryJump(pegs, startX, startY, jumpX, jumpY - 1, endX, endY, solution)) {
-			return true;
+	public static void abc(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
+		if(checkMove(pegs, endX, endY,solution)){
+			
+		}else{
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY - 1, solution)) {
+				jumpX = 0;
+				jumpY = - 1;
+				endX = endX + jumpX;
+				endY = endY + jumpY;
+				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+			}
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY + 1, solution)) {
+				jumpX = 0;
+				jumpY = 1;
+				endX = endX + jumpX;
+				endY = endY + jumpY;
+				startX = startX + jumpX;
+				startY = startY + jumpY;
+				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+			}
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX - 1, endY, solution)) {
+				jumpX = -1;
+				jumpY = 0;
+				endX = endX + jumpX;
+				endY = endY + jumpY;
+				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+			}
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX + 1, endY, solution)) {
+				jumpX = 1;
+				jumpY = 0;
+				endX = endX + jumpX;
+				endY = endY + jumpY;
+				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+			}	
 		}
-		if (tryJump(pegs, startX, startY, jumpX, jumpY + 1, endX, endY, solution)) {
-			return true;
-		}
-		if (tryJump(pegs, startX, startY, jumpX - 1, jumpY, endX, endY, solution)) {
-			return true;
-		}
-		if (tryJump(pegs, startX, startY, jumpX + 1, jumpY, endX, endY, solution)) {
-			return true;
-		}
-		return false;
 	}
+	
+//	public static void checkJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){	
+//		if (tryJump(pegs, startX, startY, jumpX, jumpY, endX, endY - 1, solution)) {
+//			jumpX = 0;
+//			jumpY = - 1;
+//			endX = endX + jumpX;
+//			endY = endY + jumpY;
+//			abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+//		}
+//		if (tryJump(pegs, startX, startY, jumpX, jumpY, endX, endY + 1, solution)) {
+//			jumpX = 0;
+//			jumpY = 1;
+//			endX = endX + jumpX;
+//			endY = endY + jumpY;
+//			startX = startX + jumpX;
+//			startY = startY + jumpY;
+//			abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+//		}
+//		if (tryJump(pegs, startX, startY,jumpX, jumpY, endX - 1, endY, solution)) {
+//			jumpX = -1;
+//			jumpY = 0;
+//			endX = endX + jumpX;
+//			endY = endY + jumpY;
+//			abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+//		}
+//		if (tryJump(pegs, startX, startY,jumpX, jumpY, endX + 1, endY, solution)) {
+//			jumpX = 1;
+//			jumpY = 0;
+//			endX = endX + jumpX;
+//			endY = endY + jumpY;
+//			abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+//		}	
+//		
+//	}
 	
 	public static boolean tryJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
 		if(startX == endX && startY == endY){
 			return false;
 		}
 		
-		if (jumpX < 0 || jumpX >= pegs.length || 
-				jumpY < 0 || jumpY >= pegs[jumpX].length) {
+		if(endX > startX && jumpX == -1){
 			return false;
 		}
 		
-		if(!checkMove(pegs, startX, startY, jumpX,jumpY,endX,endY,solution)){
-			if(checkJump(pegs, jumpX, jumpY, jumpX,jumpY,jumpX + jumpX , jumpY + jumpY,solution)){
-				
-			}
+		if(endX < startX && jumpX == 1){
+			return false;
 		}
 		
+		if(endY > startY && jumpY == -1){
+			return false;
+		}
 		
+		if(endX < startX && jumpY == 1){
+			return false;
+		}
 		
-		return false;
+		if (endX < 0 || endX >= pegs.length || 
+				endY < 0 || endY >= pegs[endX].length) {
+			return false;
+		} 
+		return true;
 	}
+//	public static void jump(boolean[][] pegs, int startX, int startY, int endX, int endY, StringStack solution){
+//		checkJump(pegs, startX,  startY, endX, endY,solution);
+//	}
 	
-	public static boolean checkMove(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
-		if(jumpX < 0 || jumpX >= pegs.length || jumpY < 0 || jumpY > pegs.length){
-			return false;
-		}
-		
-		if(startX == endX && startY == endY){
+	public static boolean checkMove(boolean[][] pegs, int startX, int startY, StringStack solution){
+		if(startX < 0 || startX >= pegs.length || startX < 0 || startY > pegs.length){
 			return false;
 		}
 		
