@@ -2,10 +2,53 @@ package LinearStructure;
 
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
-		solve(pegs, 0,0,0,-2, 0,0,solution);		
+		checkJump(pegs, 0,0,0,-2, 0,0,solution);		
 	}
 	
-	public static boolean solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
+	public static boolean checkJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
+		if (tryJump(pegs, startX, startY, startX, startY - 1, startX, startY - 1, solution)) {
+			return true;
+		}
+		if (tryJump(pegs, startX, startY, startX, startY + 1, startX, startY + 1, solution)) {
+			return true;
+		}
+		if (tryJump(pegs, startX, startY, startX - 1, startY, startX - 1, startY, solution)) {
+			return true;
+		}
+		if (tryJump(pegs, startX, startY, startX + 1, startY, startX + 1, startY, solution)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean tryJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
+		if(startX == endX && startY == endY){
+			return false;
+		}
+		
+		if (jumpX < 0 || jumpX >= pegs.length || 
+				jumpY < 0 || jumpY >= pegs[jumpX].length) {
+			return false;
+		}
+		
+		if(!checkMove(pegs, jumpX, jumpY, 0,0,0,0,solution)){
+			checkJump(pegs, jumpX, jumpY, 0,0,0,0,solution);
+		}
+		
+		
+		
+		return false;
+	}
+	
+	public static boolean checkMove(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
+		if(jumpX < 0 || jumpX >= pegs.length || jumpY < 0 || jumpY > pegs.length){
+			return false;
+		}
+		
+		if(startX == endX && startY == endY){
+			return false;
+		}
+		
 		if (tryMove(pegs, startX, startY, startX, startY - 2, startX, startY - 2, solution)) {
 			return true;
 		}
@@ -17,21 +60,7 @@ public class PegSolitaire {
 		}
 		if (tryMove(pegs, startX, startY, startX + 2, startY, startX + 2, startY, solution)) {
 			return true;
-		}
-		
-		if (jumpY > 0) {
-			solve(pegs, startX, startY - 1, 0, -1, startX, startY - 1, solution);
-		}
-		if (jumpY <7){
-			solve(pegs, startX, startY + 1, 0, 1, startX, startY + 1, solution);
-		}
-		if (startX - 1 > 0) 
-		{
-			solve(pegs, startX - 1, startY, - 1, 0, startX - 1, startY, solution);			
-		}
-		if(startX + 1 <7){ 
-			solve(pegs, startX + 1, startY, 1, 0, startX + 1, startY, solution);			
-		}
+		}		
 		
 		return false;
 			
@@ -43,7 +72,7 @@ public class PegSolitaire {
 			return false;
 		}	
 		
-		if(checkMove(pegs, startX, startY, endX, endY )){
+		if(isSwitch(pegs, startX, startY, endX, endY )){
 			pegs[endX][endY] = true;
 			pegs[startX][startY] = false;
 			pegs[(startX + endX) / 2][(startY + endY) / 2] = false;			
@@ -55,7 +84,7 @@ public class PegSolitaire {
 	}
 	
 	
-	private static boolean checkMove(boolean[][] pegs, int startX, int startY, int endX, int endY){
+	private static boolean isSwitch(boolean[][] pegs, int startX, int startY, int endX, int endY){
 		if(endX < 0 || endX >= pegs.length || endY < 0 || endY >= pegs.length){
 			return false;
 		}
