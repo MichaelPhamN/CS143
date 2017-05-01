@@ -2,20 +2,20 @@ package LinearStructure;
 
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
-		checkJump(pegs, 0,0,0,-2, 0,0,solution);		
+		checkJump(pegs, -1,-1,0,0,0,0,solution);		
 	}
 	
 	public static boolean checkJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
-		if (tryJump(pegs, startX, startY, startX, startY - 1, startX, startY - 1, solution)) {
+		if (tryJump(pegs, startX, startY, jumpX, jumpY - 1, endX, endY, solution)) {
 			return true;
 		}
-		if (tryJump(pegs, startX, startY, startX, startY + 1, startX, startY + 1, solution)) {
+		if (tryJump(pegs, startX, startY, jumpX, jumpY + 1, endX, endY, solution)) {
 			return true;
 		}
-		if (tryJump(pegs, startX, startY, startX - 1, startY, startX - 1, startY, solution)) {
+		if (tryJump(pegs, startX, startY, jumpX - 1, jumpY, endX, endY, solution)) {
 			return true;
 		}
-		if (tryJump(pegs, startX, startY, startX + 1, startY, startX + 1, startY, solution)) {
+		if (tryJump(pegs, startX, startY, jumpX + 1, jumpY, endX, endY, solution)) {
 			return true;
 		}
 		return false;
@@ -31,8 +31,10 @@ public class PegSolitaire {
 			return false;
 		}
 		
-		if(!checkMove(pegs, jumpX, jumpY, 0,0,0,0,solution)){
-			checkJump(pegs, jumpX, jumpY, 0,0,0,0,solution);
+		if(!checkMove(pegs, startX, startY, jumpX,jumpY,endX,endY,solution)){
+			if(checkJump(pegs, jumpX, jumpY, jumpX,jumpY,jumpX + jumpX , jumpY + jumpY,solution)){
+				
+			}
 		}
 		
 		
