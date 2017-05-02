@@ -3,14 +3,20 @@ package LinearStructure;
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
 		int startX = -1, startY = 0, jumpX = 1, jumpY = 0, endX = 0, endY = 0;
-		solve(pegs, startX, startY, jumpX, jumpY, endX, endY, solution);
+		if(solve(pegs, startX, startY, jumpX, jumpY, endX, endY, solution)){
+			System.out.println("Giai duoc");
+		}else{
+			System.out.println("Khong giai duoc");
+		}
+		
+		
 	}
 	
-	public static void solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
+	public static boolean solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
 		if(checkMove(pegs, endX, endY,solution)){
 			solve(pegs, solution);
 		}else{
-			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  - 1, endY, solution)) {				
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  - 1, endY)) {				
 				jumpX = - 1;
 				jumpY = 0;
 				startX = endX;
@@ -19,7 +25,7 @@ public class PegSolitaire {
 				endY = endY + jumpY;				
 				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}
-			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  + 1, endY, solution)) {
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  + 1, endY)) {
 				jumpX = 1;
 				jumpY = 0;
 				startX = endX;
@@ -29,19 +35,7 @@ public class PegSolitaire {
 				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}
 			
-			
-			
-			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY - 1, solution)) {
-				jumpX = 0;
-				jumpY = -1;
-				startX = endX;
-				startY = endY;
-				endX = endX + jumpX;
-				endY = endY + jumpY;				
-				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
-			}
-			
-			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY + 1, solution)) {
+			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY + 1)) {
 				jumpX = 0;
 				jumpY = 1;
 				startX = endX;
@@ -49,11 +43,27 @@ public class PegSolitaire {
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
 				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
-			}	
+			}
+			
+			return true;
+			
+			
+//			System.out.println("Chay toi day " + endX + ":" + endY);
+//			System.exit(0);
+//			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY - 1, solution)) {
+//				jumpX = 0;
+//				jumpY = -1;
+//				startX = endX;
+//				startY = endY;
+//				endX = endX + jumpX;
+//				endY = endY + jumpY;				
+//				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+//			}
 		}
+		return false;
 	}
 	
-	public static boolean tryJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY, StringStack solution){
+	public static boolean tryJump(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY, int endX, int endY){
 		if(startX == endX && startY == endY){
 			return false;
 		}
@@ -197,14 +207,15 @@ public class PegSolitaire {
 	
 	public static void main(String[] args){
 		StringStack stack = new StringStack(); // Empty stack
-		boolean[][] testSimple = { 
+		boolean[][] testUnsolvable = { 
+				{ false, false, false, false, false, false, false },
+				{ false, false, true, true, false, false, false },
+				{ false, true, false, false, false, false, false },
+				{ false, false, true, false, false, false, false },
 				{ false, false, false, false, false, false, false },
 				{ false, false, false, false, false, false, false },
-				{ false, false, false, false, false, false, false },
-				{ false, true, true, false, false, false, false },
-				{ false, false, false, false, false, false, false },
-				{ false, false, false, false, false, false, false },
-				{ false, false, false, false, false, false, false } };
-		solve(testSimple, stack);
+				{ false, false, false, false, false, false, false } 
+				};
+		solve(testUnsolvable, stack);
 	}
 }
