@@ -2,17 +2,15 @@ package LinearStructure;
 
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
-		int startX = -1, startY = 0, jumpX = 1, jumpY = 0, endX = 0, endY = 0;
-		if(solve(pegs, startX, startY, jumpX, jumpY, endX, endY, solution)){
+		int startX = -1, startY = 0, jumpX = 1, jumpY = 0, endX = 0, endY = 0, count = 0;
+		if(solve(pegs, startX, startY, jumpX, jumpY, endX, endY, count, solution)){
 			System.out.println("Giai duoc");
 		}else{
 			System.out.println("Khong giai duoc");
 		}
-		
-		
 	}
 	
-	public static boolean solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
+	public static boolean solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, int count ,StringStack solution){
 		if(checkMove(pegs, endX, endY,solution)){
 			solve(pegs, solution);
 		}else{
@@ -23,8 +21,9 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, count, solution);
 			}
+			
 			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  + 1, endY)) {
 				jumpX = 1;
 				jumpY = 0;
@@ -32,7 +31,7 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, count, solution);
 			}
 			
 			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY + 1)) {
@@ -42,11 +41,10 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, count, solution);
 			}
 			
-			return true;
-			
+			return true;			
 			
 //			System.out.println("Chay toi day " + endX + ":" + endY);
 //			System.exit(0);
@@ -83,12 +81,15 @@ public class PegSolitaire {
 		if (tryMove(pegs, startX, startY, startX - 2, startY, startX  - 2, startY, solution)) {
 			return true;
 		}
+		
 		if (tryMove(pegs, startX, startY, startX + 2, startY, startX + 2, startY, solution)) {
 			return true;
 		}
+		
 		if (tryMove(pegs, startX, startY, startX, startY  - 2, startX, startY - 2, solution)) {
 			return true;
 		}
+		
 		if (tryMove(pegs, startX, startY, startX, startY + 2, startX, startY + 2, solution)) {
 			return true;
 		}		
