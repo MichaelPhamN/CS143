@@ -3,12 +3,12 @@ package LinearStructure;
 public class PegSolitaire {
 	public static void solve(boolean[][] pegs, StringStack solution){
 		int startX = -1, startY = 0, jumpX = 1, jumpY = 0, endX = 0, endY = 0;
-		abc(pegs, startX, startY, jumpX, jumpY, endX, endY, solution);
+		solve(pegs, startX, startY, jumpX, jumpY, endX, endY, solution);
 	}
 	
-	public static void abc(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
+	public static void solve(boolean[][] pegs, int startX, int startY, int jumpX, int jumpY ,int endX, int endY, StringStack solution){
 		if(checkMove(pegs, endX, endY,solution)){
-			
+			solve(pegs, solution);
 		}else{
 			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  - 1, endY, solution)) {				
 				jumpX = - 1;
@@ -17,7 +17,7 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}
 			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX  + 1, endY, solution)) {
 				jumpX = 1;
@@ -26,7 +26,7 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}
 			
 			
@@ -38,7 +38,7 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}
 			
 			if (tryJump(pegs, startX, startY,jumpX, jumpY, endX, endY + 1, solution)) {
@@ -48,7 +48,7 @@ public class PegSolitaire {
 				startY = endY;
 				endX = endX + jumpX;
 				endY = endY + jumpY;				
-				abc(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
+				solve(pegs,startX,startY, jumpX, jumpY, endX, endY, solution);
 			}	
 		}
 	}
